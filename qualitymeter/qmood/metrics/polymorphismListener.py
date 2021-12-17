@@ -67,11 +67,11 @@ class PolymorphismListener(JavaParserLabeledListener):
         for m in ctx.modifier():
             if m.classOrInterfaceModifier():
                 if m.classOrInterfaceModifier().PRIVATE():
-                    modifier.setPrivateFlag(True)
+                    modifier.set_private_flag(True)
                 if m.classOrInterfaceModifier().FINAL():
-                    modifier.setFinalFlag(True)
+                    modifier.set_final_flag(True)
                 if m.classOrInterfaceModifier().STATIC():
-                    modifier.setStaticFlag(True)
+                    modifier.set_static_flag(True)
         self.class_modifier_stack.append(modifier)
 
     def enterMethodDeclaration(self, ctx: JavaParserLabeled.MethodDeclarationContext):
@@ -105,11 +105,11 @@ class PolymorphismListener(JavaParserLabeledListener):
         modifier = JavaModifier()
         for m in ctx.modifier():
             if m.classOrInterfaceModifier().PRIVATE():
-                modifier.setPrivateFlag(True)
+                modifier.set_private_flag(True)
             if m.classOrInterfaceModifier().FINAL():
-                modifier.setFinalFlag(True)
+                modifier.set_final_flag(True)
             if m.classOrInterfaceModifier().STATIC():
-                modifier.setStaticFlag(True)
+                modifier.set_static_flag(True)
         self.interface_modifier_stack.append(modifier)
 
     def exitInterfaceDeclaration(self, ctx:JavaParserLabeled.InterfaceDeclarationContext):

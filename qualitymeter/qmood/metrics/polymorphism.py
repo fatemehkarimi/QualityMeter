@@ -102,9 +102,9 @@ class Polymorphism:
                         is_inherited = True
                         break
                 if not is_inherited and not(
-                    method.getModifier().isPrivate()
-                    or method.getModifier().isFinal()
-                    or method.getModifier().isStatic()
+                    method.getModifier().is_private()
+                    or method.getModifier().is_final()
+                    or method.getModifier().is_static()
                 ):
                     total_methods_can_be_overriden += 1
 
@@ -117,9 +117,9 @@ class Polymorphism:
                         is_inherited = True
                         break
                 if not is_inherited and not(
-                    method.getModifier().isPrivate()
-                    or method.getModifier().isFinal()
-                    or method.getModifier().isStatic()
+                    method.getModifier().is_private()
+                    or method.getModifier().is_final()
+                    or method.getModifier().is_static()
                 ):
                     total_methods_can_be_overriden += 1
 
