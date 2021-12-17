@@ -94,7 +94,7 @@ class PolymorphismListener(JavaParserLabeledListener):
         if ctx.EXTENDS():
             for interface in ctx.typeList().typeType():
                 for token in interface.classOrInterfaceType().IDENTIFIER():
-                    self.current_interface.addParent(token.getText())
+                    self.current_interface.add_parent(token.getText())
         self.interface_list.append(self.current_interface)
         self.interface_stack.append(self.current_interface)
 
@@ -128,4 +128,4 @@ class PolymorphismListener(JavaParserLabeledListener):
         java_method = JavaMethod(ctx.IDENTIFIER().getText())
         java_method.set_parameter_list(ctx.formalParameters().formalParameterList())
         java_method.set_modifier(method_modifier)
-        self.current_interface.addMethod(java_method)
+        self.current_interface.add_method(java_method)

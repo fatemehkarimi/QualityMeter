@@ -81,14 +81,14 @@ class Polymorphism:
     def set_interface_parents(self):
         for java_interface in self.java_interface_container.javaInterfaceList():
             java_builtin_interfaces = []
-            for parent_name in java_interface.parentNameList():
+            for parent_name in java_interface.parent_name_list():
                 if self.java_interface_container.getJavaInterface(parent_name):
-                    java_interface.addParent(parent_name, self.java_interface_container.getJavaInterface(parent_name))
+                    java_interface.add_parent(parent_name, self.java_interface_container.getJavaInterface(parent_name))
                 else:
                     java_builtin_interfaces.append(parent_name)
 
             for builtin_parent in java_builtin_interfaces:
-                java_interface.removeParent(builtin_parent)
+                java_interface.remove_parent(builtin_parent)
 
 
     def calcPolymorphism(self):
@@ -109,8 +109,8 @@ class Polymorphism:
                     total_methods_can_be_overriden += 1
 
         for java_interface in self.java_interface_container.javaInterfaceList():
-            inherited_methods = java_interface.getInheritedMethodList()
-            for method in java_interface.methodList():
+            inherited_methods = java_interface.get_inherited_method_list()
+            for method in java_interface.method_list():
                 is_inherited = False
                 for iMethod in inherited_methods:
                     if iMethod == method:
@@ -147,11 +147,11 @@ class Polymorphism:
                 sum_metric_for_class_and_interface += count_inherited / count_methods
 
         for java_interface in self.java_interface_container.javaInterfaceList():
-            inherited_methods = java_interface.getInheritedMethodList()
+            inherited_methods = java_interface.get_inherited_method_list()
             count_inherited = len(inherited_methods)
             count_methods = count_inherited
 
-            for method in java_interface.methodList():
+            for method in java_interface.method_list():
                 is_overriden = False
                 for iMethod in inherited_methods:
                     if iMethod == method:

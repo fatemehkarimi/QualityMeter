@@ -34,7 +34,7 @@ class JavaInterfaceContaienr:
         self.container = {}
 
     def addJavaInterface(self, javaInterface):
-        self.container[javaInterface.interfaceName] = javaInterface
+        self.container[javaInterface.interface_name] = javaInterface
 
     def getJavaInterface(self, interfaceName):
         if interfaceName in self.container:

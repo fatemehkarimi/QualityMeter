@@ -59,7 +59,7 @@ class JavaClass:
             if self.interfaceList[interface] is None:
                 raise ValueError(f"Parent {interface} of Class {self.className} is not Available")
             else:
-                result = self.interfaceList[interface].hasMethod(foreignMethod)
+                result = self.interfaceList[interface].has_method(foreignMethod)
                 if result:
                     return True
         return False
@@ -94,7 +94,7 @@ class JavaClass:
             if not interfaceObject:
                 continue
 
-            parentParents = interfaceObject.getAllParents()
+            parentParents = interfaceObject.get_all_parents()
             for ancestor in parentParents:
                 if ancestor not in allParents:
                     allParents.append(ancestor)
@@ -127,11 +127,11 @@ class JavaClass:
             if not interfaceObject:
                 continue
 
-            for iMethod in interfaceObject.methodList():
+            for iMethod in interfaceObject.method_list():
                 if not isDuplicateMethod(iMethod, result):
                     result.append(iMethod)
 
-            inheritedMethods = interfaceObject.getInheritedMethodList()
+            inheritedMethods = interfaceObject.get_inherited_method_list()
             for method in inheritedMethods:
                 if not isDuplicateMethod(method, result):
                     result.append(method)

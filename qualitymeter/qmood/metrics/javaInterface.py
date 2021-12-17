@@ -6,79 +6,79 @@ class JavaInterface:
 """
 
 class JavaInterface:
-    def __init__(self, interfaceName=""):
-        self.interfaceName = interfaceName
+    def __init__(self, interface_name=""):
+        self.interface_name = interface_name
         self.methods = []
         # in java, an interface can extend another interface
-        self.parentList = {}
+        self.parent_list = {}
 
-    def addParent(self, parentName, parentObject=None):
-        self.parentList[parentName] = parentObject
+    def add_parent(self, parent_name, parent_object=None):
+        self.parent_list[parent_name] = parent_object
 
-    def removeParent(self, parentName):
-        self.parentList.pop(parentName, None)
+    def remove_parent(self, parent_name):
+        self.parent_list.pop(parent_name, None)
 
-    def addMethod(self, method):
+    def add_method(self, method):
         self.methods.append(method)
 
-    def parentNameList(self):
-        for parentName in self.parentList:
-            yield parentName
+    def parent_name_list(self):
+        for parent_name in self.parent_list:
+            yield parent_name
 
-    def methodList(self):
+    def method_list(self):
         for method in self.methods:
             yield method
 
-    def hasMethod(self, foreignMethod):
+    def has_method(self, foreign_method):
         for method in self.methods:
-            if method == foreignMethod:
+            if method == foreign_method:
                 return True
-        for parent in self.parentNameList():
-            if self.parentList[parent] is None:
-                raise ValueError(f"Parent {parent} of Class {self.interfaceName} is not Available")
+        for parent in self.parent_name_list():
+            if self.parent_list[parent] is None:
+                raise ValueError(f"Parent {parent} of Class {self.interface_name} is not Available")
             else:
-                result = self.parentList[parent].hasMethod(foreignMethod)
+                result = self.parent_list[parent].has_method(foreign_method)
                 if result:
                     return True
         return False
 
-    def getAllParents(self):
-        allParents = []
-        for parentName, parentObject in self.parentList.items():
-            if parentName not in allParents:
-                allParents.append(parentName)
+    def get_all_parents(self):
+        all_parents = []
+        for parent_name, parent_object in self.parent_list.items():
+            if parent_name not in all_parents:
+                all_parents.append(parent_name)
 
-            if not parentObject:
+            if not parent_object:
                 continue
 
-            parentParents = parentObject.getAllParents()
-            for ancestor in parentParents:
-                if ancestor not in allParents:
-                    allParents.append(ancestor)
+            parent_parents = parent_object.get_all_parents()
+            for ancestor in parent_parents:
+                if ancestor not in all_parents:
+                    all_parents.append(ancestor)
 
-        return allParents
+        return all_parents
 
-    def getInheritedMethodList(self):
-        def isDuplicateMethod(method, methodList):
-            for m in methodList:
+    def get_inherited_method_list(self):
+        def is_duplicate_method(method, method_list):
+            for m in method_list:
                 if m == method:
                     return True
             return False
 
-        if not self.parentList:
+        if not self.parent_list:
             return []
 
         result = []
-        for parentName, parentObject in self.parentList.items():
-            if not parentObject:
+        for parent_name, parent_object in self.parent_list.items():
+            if not parent_object:
                 continue
 
-            for pMethod in parentObject.methodList():
-                if not isDuplicateMethod(pMethod, result):
+            for pMethod in parent_object.method_list():
+                if not is_duplicate_method(pMethod, result):
                     result.append(pMethod)
 
-            parentMethods = parentObject.getInheritedMethodList()
-            for pMethod in parentMethods:
-                if not isDuplicateMethod(pMethod, result):
+            parent_methods = parent_object.get_inherited_method_list()
+            for pMethod in parent_methods:
+                if not is_duplicate_method(pMethod, result):
                     result.append(pMethod)
         return result

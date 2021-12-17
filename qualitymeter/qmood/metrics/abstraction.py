@@ -54,9 +54,9 @@ class Abstraction:
 
     def setInterfaceParents(self):
         for javaInterface in self.interfaceContainer.javaInterfaceList():
-            for parentName in javaInterface.parentNameList():
+            for parentName in javaInterface.parent_name_list():
                 if self.interfaceContainer.getJavaInterface(parentName):
-                    javaInterface.addParent(parentName, self.interfaceContainer.getJavaInterface(parentName))
+                    javaInterface.add_parent(parentName, self.interfaceContainer.getJavaInterface(parentName))
 
     def calcAbstraction(self):
         for stream in FileReader.getFileStreams(self.projectPath):
@@ -72,7 +72,7 @@ class Abstraction:
             totalNumberOfAncestors += len(ancestors)
 
         for javaInterface in self.interfaceContainer.javaInterfaceList():
-            ancestors = javaInterface.getAllParents()
+            ancestors = javaInterface.get_all_parents()
             totalNumberOfAncestors += len(ancestors)
 
         if self.classContainer.getSize() == 0 and self.interfaceContainer.getSize() == 0:

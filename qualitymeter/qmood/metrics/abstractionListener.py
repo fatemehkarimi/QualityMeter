@@ -38,5 +38,5 @@ class AbstractionListener(JavaParserLabeledListener):
         if ctx.EXTENDS():
             for interface in ctx.typeList().typeType():
                 for token in interface.classOrInterfaceType().IDENTIFIER():
-                    javaInterface.addParent(token.getText())
+                    javaInterface.add_parent(token.getText())
         self.javaInterfaceList.append(javaInterface)
