@@ -27,11 +27,11 @@ class PolymorphismListener(JavaParserLabeledListener):
         self.interface_modifier_stack = []
         self.interface_stack = []
 
-    def getClassList(self):
+    def get_class_list(self):
         assert(len(self.class_modifier_stack) == 0)
         return self.class_list
 
-    def getInterfaceList(self):
+    def get_interface_list(self):
         return self.interface_list
 
     def enterClassDeclaration(self, ctx:JavaParserLabeled.ClassDeclarationContext):
