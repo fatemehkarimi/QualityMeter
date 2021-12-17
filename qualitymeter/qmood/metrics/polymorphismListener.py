@@ -85,8 +85,8 @@ class PolymorphismListener(JavaParserLabeledListener):
             return
 
         java_method = JavaMethod(ctx.IDENTIFIER().getText())
-        java_method.setParameterList(ctx.formalParameters().formalParameterList())
-        java_method.setModifier(method_modifier)
+        java_method.set_parameter_list(ctx.formalParameters().formalParameterList())
+        java_method.set_modifier(method_modifier)
         self.current_class.addMethod(java_method)
 
     def enterInterfaceDeclaration(self, ctx:JavaParserLabeled.InterfaceDeclarationContext):
@@ -126,6 +126,6 @@ class PolymorphismListener(JavaParserLabeledListener):
         self.interface_modifier_stack.pop()
 
         java_method = JavaMethod(ctx.IDENTIFIER().getText())
-        java_method.setParameterList(ctx.formalParameters().formalParameterList())
-        java_method.setModifier(method_modifier)
+        java_method.set_parameter_list(ctx.formalParameters().formalParameterList())
+        java_method.set_modifier(method_modifier)
         self.current_interface.addMethod(java_method)
