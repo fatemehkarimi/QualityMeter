@@ -39,7 +39,7 @@ class Abstraction:
     def extractJavaInterfaces(self, listener):
         javaInterfaces = listener.getJavaInterfaceList()
         for javaInterface in javaInterfaces:
-            self.interfaceContainer.addJavaInterface(javaInterface)
+            self.interfaceContainer.add_java_interface(javaInterface)
 
     def setClassParents(self):
         for javaClass in self.classContainer.javaClassList():
@@ -49,14 +49,14 @@ class Abstraction:
 
         for javaClass in self.classContainer.javaClassList():
             for interfaceName in javaClass.interfaceNameList():
-                if self.interfaceContainer.getJavaInterface(interfaceName):
-                    javaClass.addInterface(interfaceName, self.interfaceContainer.getJavaInterface(interfaceName))
+                if self.interfaceContainer.get_java_interface(interfaceName):
+                    javaClass.addInterface(interfaceName, self.interfaceContainer.get_java_interface(interfaceName))
 
     def setInterfaceParents(self):
-        for javaInterface in self.interfaceContainer.javaInterfaceList():
+        for javaInterface in self.interfaceContainer.java_interface_list():
             for parentName in javaInterface.parent_name_list():
-                if self.interfaceContainer.getJavaInterface(parentName):
-                    javaInterface.add_parent(parentName, self.interfaceContainer.getJavaInterface(parentName))
+                if self.interfaceContainer.get_java_interface(parentName):
+                    javaInterface.add_parent(parentName, self.interfaceContainer.get_java_interface(parentName))
 
     def calcAbstraction(self):
         for stream in FileReader.getFileStreams(self.projectPath):
@@ -71,10 +71,11 @@ class Abstraction:
             ancestors = javaClass.getAllParents()
             totalNumberOfAncestors += len(ancestors)
 
-        for javaInterface in self.interfaceContainer.javaInterfaceList():
+        for javaInterface in self.interfaceContainer.java_interface_list():
             ancestors = javaInterface.get_all_parents()
             totalNumberOfAncestors += len(ancestors)
 
-        if self.classContainer.getSize() == 0 and self.interfaceContainer.getSize() == 0:
+        if self.classContainer.getSize() == 0 and self.interfaceContainer.get_size() == 0:
             return 0
-        return totalNumberOfAncestors / (self.classContainer.getSize() + self.interfaceContainer.getSize())
+        return (totalNumberOfAncestors /
+                (self.classContainer.getSize() + self.interfaceContainer.get_size()))

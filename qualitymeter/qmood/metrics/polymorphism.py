@@ -51,7 +51,7 @@ class Polymorphism:
     def extract_stream_interfaces(self, listener):
         java_interface_list = listener.get_interface_list()
         for java_interface in java_interface_list:
-            self.java_interface_container.addJavaInterface(java_interface)
+            self.java_interface_container.add_java_interface(java_interface)
 
     def set_class_parents(self):
         for java_class in self.java_class_container.javaClassList():
@@ -69,9 +69,9 @@ class Polymorphism:
         for java_class in self.java_class_container.javaClassList():
             java_builtin_interfaces = []
             for interface_name in java_class.interfaceNameList():
-                if self.java_interface_container.getJavaInterface(interface_name):
+                if self.java_interface_container.get_java_interface(interface_name):
                     java_class.addInterface(
-                        interface_name, self.java_interface_container.getJavaInterface(interface_name))
+                        interface_name, self.java_interface_container.get_java_interface(interface_name))
                 else:
                     java_builtin_interfaces.append(interface_name)
 
@@ -79,11 +79,12 @@ class Polymorphism:
                 java_class.removeInterface(java_builtin_interface)
 
     def set_interface_parents(self):
-        for java_interface in self.java_interface_container.javaInterfaceList():
+        for java_interface in self.java_interface_container.java_interface_list():
             java_builtin_interfaces = []
             for parent_name in java_interface.parent_name_list():
-                if self.java_interface_container.getJavaInterface(parent_name):
-                    java_interface.add_parent(parent_name, self.java_interface_container.getJavaInterface(parent_name))
+                if self.java_interface_container.get_java_interface(parent_name):
+                    java_interface.add_parent(
+                        parent_name, self.java_interface_container.get_java_interface(parent_name))
                 else:
                     java_builtin_interfaces.append(parent_name)
 
@@ -108,7 +109,7 @@ class Polymorphism:
                 ):
                     total_methods_can_be_overriden += 1
 
-        for java_interface in self.java_interface_container.javaInterfaceList():
+        for java_interface in self.java_interface_container.java_interface_list():
             inherited_methods = java_interface.get_inherited_method_list()
             for method in java_interface.method_list():
                 is_inherited = False
@@ -123,9 +124,10 @@ class Polymorphism:
                 ):
                     total_methods_can_be_overriden += 1
 
-        if self.java_class_container.getSize() == 0 and self.java_interface_container.getSize():
+        if self.java_class_container.getSize() == 0 and self.java_interface_container.get_size():
             return 0
-        return total_methods_can_be_overriden / (self.java_class_container.getSize() + self.java_interface_container.getSize())
+        return (total_methods_can_be_overriden /
+                (self.java_class_container.getSize() + self.java_interface_container.get_size()))
 
     def calcInheritence(self):
         sum_metric_for_class_and_interface = 0
@@ -146,7 +148,7 @@ class Polymorphism:
             if count_methods != 0:
                 sum_metric_for_class_and_interface += count_inherited / count_methods
 
-        for java_interface in self.java_interface_container.javaInterfaceList():
+        for java_interface in self.java_interface_container.java_interface_list():
             inherited_methods = java_interface.get_inherited_method_list()
             count_inherited = len(inherited_methods)
             count_methods = count_inherited
@@ -163,6 +165,7 @@ class Polymorphism:
             if count_methods != 0:
                 sum_metric_for_class_and_interface += count_inherited / count_methods
 
-        if self.java_class_container.getSize() == 0 and self.java_interface_container.getSize() == 0:
+        if self.java_class_container.getSize() == 0 and self.java_interface_container.get_size() == 0:
             return 0
-        return sum_metric_for_class_and_interface / (self.java_class_container.getSize() + self.java_interface_container.getSize())
+        return (sum_metric_for_class_and_interface /
+                (self.java_class_container.getSize() + self.java_interface_container.get_size()))

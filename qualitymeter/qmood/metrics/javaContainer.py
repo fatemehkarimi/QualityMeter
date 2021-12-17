@@ -33,16 +33,16 @@ class JavaInterfaceContaienr:
     def __init__(self):
         self.container = {}
 
-    def addJavaInterface(self, javaInterface):
-        self.container[javaInterface.interface_name] = javaInterface
+    def add_java_interface(self, java_interface):
+        self.container[java_interface.interface_name] = java_interface
 
-    def getJavaInterface(self, interfaceName):
-        if interfaceName in self.container:
-            return self.container[interfaceName]
+    def get_java_interface(self, interface_name):
+        if interface_name in self.container:
+            return self.container[interface_name]
 
-    def javaInterfaceList(self):
-        for _, javaInterface in self.container.items():
-            yield javaInterface
+    def java_interface_list(self):
+        for _, java_interface in self.container.items():
+            yield java_interface
 
-    def getSize(self):
+    def get_size(self):
         return len(self.container)
