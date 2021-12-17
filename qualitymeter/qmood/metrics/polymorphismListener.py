@@ -15,45 +15,45 @@ from .javaModifier import JavaModifier
 
 class PolymorphismListener(JavaParserLabeledListener):
     def __init__(self):
-        self.classList = []
-        self.interfaceList = []
+        self.class_list = []
+        self.interface_list = []
 
-        self.currentClass = None
-        self.currentInterface = None
+        self.current_class = None
+        self.current_interface = None
 
-        self.classModifierStack = []
+        self.class_modifier_stack = []
         self.classStack = []
 
-        self.interfaceModifierStack = []
-        self.interFaceStack = []
+        self.interface_modifier_stack = []
+        self.interface_stack = []
 
     def getClassList(self):
-        assert(len(self.classModifierStack) == 0)
-        return self.classList
+        assert(len(self.class_modifier_stack) == 0)
+        return self.class_list
 
     def getInterfaceList(self):
-        return self.interfaceList
+        return self.interface_list
 
     def enterClassDeclaration(self, ctx:JavaParserLabeled.ClassDeclarationContext):
-        self.currentClass = JavaClass(ctx.IDENTIFIER().getText())
+        self.current_class = JavaClass(ctx.IDENTIFIER().getText())
         if ctx.EXTENDS():
             for parent in ctx.typeType().classOrInterfaceType().IDENTIFIER():
-                self.currentClass.addParent(parent.getText())
+                self.current_class.addParent(parent.getText())
 
         if ctx.IMPLEMENTS():
             for interface in ctx.typeList().typeType():
                 for token in interface.classOrInterfaceType().IDENTIFIER():
-                    self.currentClass.addInterface(token.getText())
+                    self.current_class.addInterface(token.getText())
 
-        self.classList.append(self.currentClass)
-        self.classStack.append(self.currentClass)
+        self.class_list.append(self.current_class)
+        self.classStack.append(self.current_class)
 
     def exitClassDeclaration(self, ctx:JavaParserLabeled.ClassDeclarationContext):
         self.classStack.pop()
         if self.classStack:
-            self.currentClass = self.classStack[-1]
+            self.current_class = self.classStack[-1]
         else:
-            self.currentClass = None
+            self.current_class = None
 
     def enterClassBodyDeclaration2(self, ctx:JavaParserLabeled.ClassBodyDeclaration2Context):
         # we only care about method modifiers of classes
@@ -72,32 +72,31 @@ class PolymorphismListener(JavaParserLabeledListener):
                     modifier.setFinalFlag(True)
                 if m.classOrInterfaceModifier().STATIC():
                     modifier.setStaticFlag(True)
-
-        self.classModifierStack.append(modifier)
+        self.class_modifier_stack.append(modifier)
 
     def enterMethodDeclaration(self, ctx: JavaParserLabeled.MethodDeclarationContext):
-        if not self.classModifierStack:
+        if not self.class_modifier_stack:
             raise Exception("modifier stack for method is empty. this should not happen")
 
-        methodModifier = self.classModifierStack[-1]
-        self.classModifierStack.pop()
+        method_modifier = self.class_modifier_stack[-1]
+        self.class_modifier_stack.pop()
         # a method may be out of a class, in an enum for example. we only care about methods inside a class.
-        if not self.currentClass:
+        if not self.current_class:
             return
 
-        javaMethod = JavaMethod(ctx.IDENTIFIER().getText())
-        javaMethod.setParameterList(ctx.formalParameters().formalParameterList())
-        javaMethod.setModifier(methodModifier)
-        self.currentClass.addMethod(javaMethod)
+        java_method = JavaMethod(ctx.IDENTIFIER().getText())
+        java_method.setParameterList(ctx.formalParameters().formalParameterList())
+        java_method.setModifier(method_modifier)
+        self.current_class.addMethod(java_method)
 
     def enterInterfaceDeclaration(self, ctx:JavaParserLabeled.InterfaceDeclarationContext):
-        self.currentInterface = JavaInterface(ctx.IDENTIFIER().getText())
+        self.current_interface = JavaInterface(ctx.IDENTIFIER().getText())
         if ctx.EXTENDS():
             for interface in ctx.typeList().typeType():
                 for token in interface.classOrInterfaceType().IDENTIFIER():
-                    self.currentInterface.addParent(token.getText())
-        self.interfaceList.append(self.currentInterface)
-        self.interFaceStack.append(self.currentInterface)
+                    self.current_interface.addParent(token.getText())
+        self.interface_list.append(self.current_interface)
+        self.interface_stack.append(self.current_interface)
 
     def enterInterfaceBodyDeclaration(self, ctx:JavaParserLabeled.InterfaceBodyDeclarationContext):
         # we only care about modifiers of methods in interfaces
@@ -111,25 +110,22 @@ class PolymorphismListener(JavaParserLabeledListener):
                 modifier.setFinalFlag(True)
             if m.classOrInterfaceModifier().STATIC():
                 modifier.setStaticFlag(True)
-
-        self.interfaceModifierStack.append(modifier)
-        assert(len(self.interfaceModifierStack) <= 1)
-
+        self.interface_modifier_stack.append(modifier)
 
     def exitInterfaceDeclaration(self, ctx:JavaParserLabeled.InterfaceDeclarationContext):
-        self.interFaceStack.pop()
-        if self.interFaceStack:
-            self.currentInterface = self.interFaceStack[-1]
+        self.interface_stack.pop()
+        if self.interface_stack:
+            self.current_interface = self.interface_stack[-1]
         else:
-            self.currentInterface = None
+            self.current_interface = None
 
     def enterInterfaceMethodDeclaration(self, ctx:JavaParserLabeled.InterfaceMethodDeclarationContext):
-        if not self.interfaceModifierStack:
+        if not self.interface_modifier_stack:
             raise Exception("modifier stack for method is empty. this should not happen")
-        methodModifier = self.interfaceModifierStack[-1]
-        self.interfaceModifierStack.pop()
+        method_modifier = self.interface_modifier_stack[-1]
+        self.interface_modifier_stack.pop()
 
-        javaMethod = JavaMethod(ctx.IDENTIFIER().getText())
-        javaMethod.setParameterList(ctx.formalParameters().formalParameterList())
-        javaMethod.setModifier(methodModifier)
-        self.currentInterface.addMethod(javaMethod)
+        java_method = JavaMethod(ctx.IDENTIFIER().getText())
+        java_method.setParameterList(ctx.formalParameters().formalParameterList())
+        java_method.setModifier(method_modifier)
+        self.current_interface.addMethod(java_method)
