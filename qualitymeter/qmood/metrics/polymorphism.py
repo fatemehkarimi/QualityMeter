@@ -46,7 +46,7 @@ class Polymorphism:
     def extract_stream_classes(self, listener):
         java_class_list = listener.get_class_list()
         for java_class in java_class_list:
-            self.java_class_container.addJavaClass(java_class)
+            self.java_class_container.add_java_class(java_class)
 
     def extract_stream_interfaces(self, listener):
         java_interface_list = listener.get_interface_list()
@@ -54,11 +54,11 @@ class Polymorphism:
             self.java_interface_container.add_java_interface(java_interface)
 
     def set_class_parents(self):
-        for java_class in self.java_class_container.javaClassList():
+        for java_class in self.java_class_container.java_class_list():
             java_builtin_parents = []
             for parent_name in java_class.parent_name_list():
-                if self.java_class_container.getJavaClass(parent_name):
-                    java_class.add_parent(parent_name, self.java_class_container.getJavaClass(parent_name))
+                if self.java_class_container.get_java_class(parent_name):
+                    java_class.add_parent(parent_name, self.java_class_container.get_java_class(parent_name))
                 else:
                     java_builtin_parents.append(parent_name)
 
@@ -66,7 +66,7 @@ class Polymorphism:
                 # We exclude inheriting Java built-in classes.
                 java_class.remove_parent(builtin_parent)
 
-        for java_class in self.java_class_container.javaClassList():
+        for java_class in self.java_class_container.java_class_list():
             java_builtin_interfaces = []
             for interface_name in java_class.interface_name_list():
                 if self.java_interface_container.get_java_interface(interface_name):
@@ -94,7 +94,7 @@ class Polymorphism:
 
     def calcPolymorphism(self):
         total_methods_can_be_overriden = 0
-        for java_class in self.java_class_container.javaClassList():
+        for java_class in self.java_class_container.java_class_list():
             inherited_methods = java_class.get_inherited_method_list()
             for method in java_class.method_list():
                 is_inherited = False
@@ -124,14 +124,14 @@ class Polymorphism:
                 ):
                     total_methods_can_be_overriden += 1
 
-        if self.java_class_container.getSize() == 0 and self.java_interface_container.get_size():
+        if self.java_class_container.get_size() == 0 and self.java_interface_container.get_size():
             return 0
         return (total_methods_can_be_overriden /
-                (self.java_class_container.getSize() + self.java_interface_container.get_size()))
+                (self.java_class_container.get_size() + self.java_interface_container.get_size()))
 
     def calcInheritence(self):
         sum_metric_for_class_and_interface = 0
-        for java_class in self.java_class_container.javaClassList():
+        for java_class in self.java_class_container.java_class_list():
             inherited_methods = java_class.get_inherited_method_list()
             count_inherited = len(inherited_methods)
             count_methods = count_inherited
@@ -165,7 +165,7 @@ class Polymorphism:
             if count_methods != 0:
                 sum_metric_for_class_and_interface += count_inherited / count_methods
 
-        if self.java_class_container.getSize() == 0 and self.java_interface_container.get_size() == 0:
+        if self.java_class_container.get_size() == 0 and self.java_interface_container.get_size() == 0:
             return 0
         return (sum_metric_for_class_and_interface /
-                (self.java_class_container.getSize() + self.java_interface_container.get_size()))
+                (self.java_class_container.get_size() + self.java_interface_container.get_size()))

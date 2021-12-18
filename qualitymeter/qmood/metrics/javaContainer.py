@@ -14,18 +14,18 @@ class JavaCLassContainer:
     def __init__(self):
         self.container = {}
 
-    def addJavaClass(self, java_class):
+    def add_java_class(self, java_class):
         self.container[java_class.class_name] = java_class
 
-    def getJavaClass(self, class_name):
+    def get_java_class(self, class_name):
         if class_name in self.container:
             return self.container[class_name]
 
-    def javaClassList(self):
+    def java_class_list(self):
         for _, java_class in self.container.items():
             yield java_class
 
-    def getSize(self):
+    def get_size(self):
         return len(self.container)
 
 
