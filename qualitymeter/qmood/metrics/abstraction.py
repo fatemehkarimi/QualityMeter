@@ -43,12 +43,12 @@ class Abstraction:
 
     def setClassParents(self):
         for javaClass in self.classContainer.javaClassList():
-            for parentName in javaClass.parentNameList():
+            for parentName in javaClass.parent_name_list():
                 if self.classContainer.getJavaClass(parentName):
-                    javaClass.addParent(parentName, self.classContainer.getJavaClass(parentName))
+                    javaClass.add_parent(parentName, self.classContainer.getJavaClass(parentName))
 
         for javaClass in self.classContainer.javaClassList():
-            for interfaceName in javaClass.interfaceNameList():
+            for interfaceName in javaClass.interface_name_list():
                 if self.interfaceContainer.get_java_interface(interfaceName):
                     javaClass.addInterface(interfaceName, self.interfaceContainer.get_java_interface(interfaceName))
 
@@ -68,7 +68,7 @@ class Abstraction:
 
         totalNumberOfAncestors = 0
         for javaClass in self.classContainer.javaClassList():
-            ancestors = javaClass.getAllParents()
+            ancestors = javaClass.get_all_parents()
             totalNumberOfAncestors += len(ancestors)
 
         for javaInterface in self.interfaceContainer.java_interface_list():

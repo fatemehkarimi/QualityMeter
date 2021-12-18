@@ -38,7 +38,7 @@ class PolymorphismListener(JavaParserLabeledListener):
         self.current_class = JavaClass(ctx.IDENTIFIER().getText())
         if ctx.EXTENDS():
             for parent in ctx.typeType().classOrInterfaceType().IDENTIFIER():
-                self.current_class.addParent(parent.getText())
+                self.current_class.add_parent(parent.getText())
 
         if ctx.IMPLEMENTS():
             for interface in ctx.typeList().typeType():
@@ -87,7 +87,7 @@ class PolymorphismListener(JavaParserLabeledListener):
         java_method = JavaMethod(ctx.IDENTIFIER().getText())
         java_method.set_parameter_list(ctx.formalParameters().formalParameterList())
         java_method.set_modifier(method_modifier)
-        self.current_class.addMethod(java_method)
+        self.current_class.add_method(java_method)
 
     def enterInterfaceDeclaration(self, ctx:JavaParserLabeled.InterfaceDeclarationContext):
         self.current_interface = JavaInterface(ctx.IDENTIFIER().getText())

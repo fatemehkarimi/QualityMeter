@@ -25,7 +25,7 @@ class AbstractionListener(JavaParserLabeledListener):
         javaClass = JavaClass(ctx.IDENTIFIER().getText())
         if ctx.EXTENDS():
             for parent in ctx.typeType().classOrInterfaceType().IDENTIFIER():
-                javaClass.addParent(parent.getText())
+                javaClass.add_parent(parent.getText())
 
         if ctx.IMPLEMENTS():
             for interface in ctx.typeList().typeType():

@@ -56,19 +56,19 @@ class Polymorphism:
     def set_class_parents(self):
         for java_class in self.java_class_container.javaClassList():
             java_builtin_parents = []
-            for parent_name in java_class.parentNameList():
+            for parent_name in java_class.parent_name_list():
                 if self.java_class_container.getJavaClass(parent_name):
-                    java_class.addParent(parent_name, self.java_class_container.getJavaClass(parent_name))
+                    java_class.add_parent(parent_name, self.java_class_container.getJavaClass(parent_name))
                 else:
                     java_builtin_parents.append(parent_name)
 
             for builtin_parent in java_builtin_parents:
                 # We exclude inheriting Java built-in classes.
-                java_class.removeParent(builtin_parent)
+                java_class.remove_parent(builtin_parent)
 
         for java_class in self.java_class_container.javaClassList():
             java_builtin_interfaces = []
-            for interface_name in java_class.interfaceNameList():
+            for interface_name in java_class.interface_name_list():
                 if self.java_interface_container.get_java_interface(interface_name):
                     java_class.addInterface(
                         interface_name, self.java_interface_container.get_java_interface(interface_name))
@@ -76,7 +76,7 @@ class Polymorphism:
                     java_builtin_interfaces.append(interface_name)
 
             for java_builtin_interface in java_builtin_interfaces:
-                java_class.removeInterface(java_builtin_interface)
+                java_class.remove_interface(java_builtin_interface)
 
     def set_interface_parents(self):
         for java_interface in self.java_interface_container.java_interface_list():
@@ -95,8 +95,8 @@ class Polymorphism:
     def calcPolymorphism(self):
         total_methods_can_be_overriden = 0
         for java_class in self.java_class_container.javaClassList():
-            inherited_methods = java_class.getInheritedMethodList()
-            for method in java_class.methodList():
+            inherited_methods = java_class.get_inherited_method_list()
+            for method in java_class.method_list():
                 is_inherited = False
                 for iMethod in inherited_methods:
                     if iMethod == method:
@@ -132,11 +132,11 @@ class Polymorphism:
     def calcInheritence(self):
         sum_metric_for_class_and_interface = 0
         for java_class in self.java_class_container.javaClassList():
-            inherited_methods = java_class.getInheritedMethodList()
+            inherited_methods = java_class.get_inherited_method_list()
             count_inherited = len(inherited_methods)
             count_methods = count_inherited
 
-            for method in java_class.methodList():
+            for method in java_class.method_list():
                 is_overriden = False
                 for iMethod in inherited_methods:
                     if iMethod == method:

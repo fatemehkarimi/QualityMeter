@@ -7,146 +7,146 @@ class JavaClass:
 
 
 class JavaClass:
-    def __init__(self, className=""):
-        self.className = className
+    def __init__(self, class_name=""):
+        self.class_name = class_name
         self.methods = []
-        self.parentClassList = {}
-        self.interfaceList = {}
+        self.parent_class_list = {}
+        self.interface_list = {}
 
-    def setClassName(self, clsName):
-        self.className = clsName
+    def set_class_name(self, cls_name):
+        self.class_name = cls_name
 
-    def addMethod(self, method):
+    def add_method(self, method):
         self.methods.append(method)
 
-    def addParent(self, parentName, parentObject=None):
-        self.parentClassList[parentName] = parentObject
+    def add_parent(self, parent_name, parent_object=None):
+        self.parent_class_list[parent_name] = parent_object
 
-    def removeParent(self, parentName):
-        self.parentClassList.pop(parentName, None)
+    def remove_parent(self, parent_name):
+        self.parent_class_list.pop(parent_name, None)
 
-    def getParent(self, parentName):
-        return self.parentClassList.get(parentName)
+    def get_parent(self, parent_name):
+        return self.parent_class_list.get(parent_name)
 
-    def hasParent(self):
-        if self.parentClassList:
+    def has_parent(self):
+        if self.parent_class_list:
             return True
         return False
 
     def addInterface(self, interfaceName, interfaceObject=None):
-        self.interfaceList[interfaceName] = interfaceObject
+        self.interface_list[interfaceName] = interfaceObject
 
-    def removeInterface(self, interfaceName):
-        self.interfaceList.pop(interfaceName, None)
+    def remove_interface(self, interface_name):
+        self.interface_list.pop(interface_name, None)
 
-    def getInterface(self, interfaceName):
-        return self.interfaceList.get(interfaceName)
+    def get_interface(self, interface_name):
+        return self.interface_list.get(interface_name)
 
-    def hasMethod(self, foreignMethod):
+    def has_method(self, foreign_method):
         for method in self.methods:
-            if method == foreignMethod:
+            if method == foreign_method:
                 return True
 
-        for parent in self.parentNameList():
-            if self.parentClassList[parent] is None:
-                raise ValueError(f"Parent {parent} of Class {self.className} is not Available")
+        for parent in self.parent_name_list():
+            if self.parent_class_list[parent] is None:
+                raise ValueError(f"Parent {parent} of Class {self.class_name} is not Available")
             else:
-                result = self.parentClassList[parent].hasMethod(foreignMethod)
+                result = self.parent_class_list[parent].has_method(foreign_method)
                 if result:
                     return True
 
-        for interface in self.interfaceNameList():
-            if self.interfaceList[interface] is None:
-                raise ValueError(f"Parent {interface} of Class {self.className} is not Available")
+        for interface in self.interface_name_list():
+            if self.interface_list[interface] is None:
+                raise ValueError(f"Parent {interface} of Class {self.class_name} is not Available")
             else:
-                result = self.interfaceList[interface].has_method(foreignMethod)
+                result = self.interface_list[interface].has_method(foreign_method)
                 if result:
                     return True
         return False
 
-    def parentNameList(self):
-        for parentName in self.parentClassList:
-            yield parentName
+    def parent_name_list(self):
+        for parent_name in self.parent_class_list:
+            yield parent_name
 
-    def parentObjectList(self):
-        for parentName in self.parentClassList:
-            yield self.parentClassList[parentName]
+    def parent_object_list(self):
+        for parent_name in self.parent_class_list:
+            yield self.parent_class_list[parent_name]
 
-    def methodList(self):
+    def method_list(self):
         for method in self.methods:
             yield method
 
-    def interfaceNameList(self):
-        for interfaceName in self.interfaceList:
-            yield interfaceName
+    def interface_name_list(self):
+        for interface_name in self.interface_list:
+            yield interface_name
 
-    def interfaceObjectList(self):
-        for interfaceName in self.interfaceList:
-            yield self.interfaceList[interfaceName]
+    def interface_object_list(self):
+        for interface_name in self.interface_list:
+            yield self.interface_list[interface_name]
 
-    def getAllParents(self):
-        allParents = []
-        for interfaceName, interfaceObject in self.interfaceList.items():
-            if interfaceName not in allParents:
-                allParents.append(interfaceName)
+    def get_all_parents(self):
+        all_parents = []
+        for interface_name, interface_object in self.interface_list.items():
+            if interface_name not in all_parents:
+                all_parents.append(interface_name)
 
             # when interface is a built-in java interface, its object is None
-            if not interfaceObject:
+            if not interface_object:
                 continue
 
-            parentParents = interfaceObject.get_all_parents()
-            for ancestor in parentParents:
-                if ancestor not in allParents:
-                    allParents.append(ancestor)
+            parent_parents = interface_object.get_all_parents()
+            for ancestor in parent_parents:
+                if ancestor not in all_parents:
+                    all_parents.append(ancestor)
 
-        for className, classObject in self.parentClassList.items():
-            if className not in allParents:
-                allParents.append(className)
+        for class_name, class_object in self.parent_class_list.items():
+            if class_name not in all_parents:
+                all_parents.append(class_name)
 
-            if not classObject:
+            if not class_object:
                 continue
 
-            parentParents = classObject.getAllParents()
-            for ancestor in parentParents:
-                if ancestor not in allParents:
-                    allParents.append(ancestor)
-        return allParents
+            parent_parents = class_object.get_all_parents()
+            for ancestor in parent_parents:
+                if ancestor not in all_parents:
+                    all_parents.append(ancestor)
+        return all_parents
 
-    def getInheritedMethodList(self):
-        def isDuplicateMethod(method, methodList):
-            for m in methodList:
+    def get_inherited_method_list(self):
+        def is_duplicate_method(method, method_list):
+            for m in method_list:
                 if m == method:
                     return True
             return False
 
-        if not self.parentClassList and not self.interfaceList:
+        if not self.parent_class_list and not self.interface_list:
             return []
 
         result = []
-        for interfaceName, interfaceObject in self.interfaceList.items():
-            if not interfaceObject:
+        for interface_name, interface_object in self.interface_list.items():
+            if not interface_object:
                 continue
 
-            for iMethod in interfaceObject.method_list():
-                if not isDuplicateMethod(iMethod, result):
+            for iMethod in interface_object.method_list():
+                if not is_duplicate_method(iMethod, result):
                     result.append(iMethod)
 
-            inheritedMethods = interfaceObject.get_inherited_method_list()
-            for method in inheritedMethods:
-                if not isDuplicateMethod(method, result):
+            inherited_methods = interface_object.get_inherited_method_list()
+            for method in inherited_methods:
+                if not is_duplicate_method(method, result):
                     result.append(method)
 
-        for className, classObject in self.parentClassList.items():
-            if not classObject:
+        for class_name, class_object in self.parent_class_list.items():
+            if not class_object:
                 continue
 
-            for method in classObject.methodList():
-                if not isDuplicateMethod(method, result):
+            for method in class_object.method_list():
+                if not is_duplicate_method(method, result):
                     result.append(method)
 
-            inheritedMethods = classObject.getInheritedMethodList()
-            for method in inheritedMethods:
-                if not isDuplicateMethod(method, result):
+            inherited_methods = class_object.get_inherited_method_list()
+            for method in inherited_methods:
+                if not is_duplicate_method(method, result):
                     result.append(method)
 
         return result
