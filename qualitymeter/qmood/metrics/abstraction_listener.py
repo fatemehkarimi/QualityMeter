@@ -6,8 +6,8 @@ class AbstractionListener
 
 from qualitymeter.gen.javaLabeled.JavaParserLabeledListener import JavaParserLabeledListener
 from qualitymeter.gen.javaLabeled.JavaParserLabeled import JavaParserLabeled
-from qualitymeter.qmood.metrics.javaClass import JavaClass
-from qualitymeter.qmood.metrics.javaInterface import JavaInterface
+from qualitymeter.qmood.metrics.java_class import JavaClass
+from qualitymeter.qmood.metrics.java_interface import JavaInterface
 
 
 class AbstractionListener(JavaParserLabeledListener):

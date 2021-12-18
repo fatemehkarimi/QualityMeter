@@ -14,8 +14,8 @@ from antlr4 import *
 from utils.file_reader import FileReader
 from qualitymeter.gen.javaLabeled.JavaLexer import JavaLexer
 from qualitymeter.gen.javaLabeled.JavaParserLabeled import JavaParserLabeled
-from .polymorphismListener import PolymorphismListener
-from .javaContainer import JavaCLassContainer, JavaInterfaceContaienr
+from .polymorphism_listener import PolymorphismListener
+from .java_container import JavaCLassContainer, JavaInterfaceContaienr
 
 
 class Polymorphism:

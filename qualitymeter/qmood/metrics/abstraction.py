@@ -10,8 +10,8 @@ from antlr4 import *
 from utils.file_reader import FileReader
 from qualitymeter.gen.javaLabeled.JavaLexer import JavaLexer
 from qualitymeter.gen.javaLabeled.JavaParserLabeled import JavaParserLabeled
-from .abstractionListener import AbstractionListener
-from .javaContainer import JavaCLassContainer, JavaInterfaceContaienr
+from .abstraction_listener import AbstractionListener
+from .java_container import JavaCLassContainer, JavaInterfaceContaienr
 
 class Abstraction:
     def __init__(self, project_path):
@@ -56,7 +56,8 @@ class Abstraction:
         for java_interface in self.interface_container.java_interface_list():
             for parent_name in java_interface.parent_name_list():
                 if self.interface_container.get_java_interface(parent_name):
-                    java_interface.add_parent(parent_name, self.interface_container.get_java_interface(parent_name))
+                    java_interface.add_parent(
+                        parent_name, self.interface_container.get_java_interface(parent_name))
 
     def calc_abstraction(self):
         for stream in FileReader.get_file_streams(self.project_path):

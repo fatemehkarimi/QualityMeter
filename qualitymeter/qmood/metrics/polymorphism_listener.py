@@ -7,10 +7,10 @@ class PolymorphismListener:
 
 from qualitymeter.gen.javaLabeled.JavaParserLabeledListener import JavaParserLabeledListener
 from qualitymeter.gen.javaLabeled.JavaParserLabeled import *
-from .javaInterface import JavaInterface
-from .javaClass import JavaClass
-from .javaMethod import JavaMethod
-from .javaModifier import JavaModifier
+from .java_interface import JavaInterface
+from .java_class import JavaClass
+from .java_method import JavaMethod
+from .java_modifier import JavaModifier
 
 
 class PolymorphismListener(JavaParserLabeledListener):

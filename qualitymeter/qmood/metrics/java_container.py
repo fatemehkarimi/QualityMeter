@@ -8,7 +8,7 @@ class JavaInterfaceContainer:
   deleting an interface, and querying for the existence of an interface in the container.
 """
 
-from .javaClass import JavaClass
+from .java_class import JavaClass
 
 class JavaCLassContainer:
     def __init__(self):

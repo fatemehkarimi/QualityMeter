@@ -2,7 +2,7 @@ from antlr4 import *
 from utils.file_reader import FileReader
 from qualitymeter.gen.javaLabeled.JavaLexer import JavaLexer
 from qualitymeter.gen.javaLabeled.JavaParserLabeled import JavaParserLabeled
-from .couplingListener import CouplingListener
+from .coupling_listener import CouplingListener
 
 class Coupling:
     def __init__(self, project_path):
