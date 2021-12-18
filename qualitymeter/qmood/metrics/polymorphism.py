@@ -24,7 +24,7 @@ class Polymorphism:
         self.java_class_container = JavaCLassContainer()
         self.java_interface_container = JavaInterfaceContaienr()
 
-        for stream in FileReader.getFileStreams(self.project_path):
+        for stream in FileReader.get_file_streams(self.project_path):
             listener = self.get_listener(stream)
             self.extract_stream_classes(listener)
             self.extract_stream_interfaces(listener)
@@ -36,11 +36,10 @@ class Polymorphism:
         token_stream = CommonTokenStream(lexer)
         parser = JavaParserLabeled(token_stream)
         parser.getTokenStream()
-        parseTree = parser.compilationUnit()
-
-        listener =PolymorphismListener()
+        parse_tree = parser.compilationUnit()
+        listener = PolymorphismListener()
         walker = ParseTreeWalker()
-        walker.walk(t=parseTree, listener=listener)
+        walker.walk(t=parse_tree, listener=listener)
         return listener
 
     def extract_stream_classes(self, listener):
@@ -92,7 +91,7 @@ class Polymorphism:
                 java_interface.remove_parent(builtin_parent)
 
 
-    def calcPolymorphism(self):
+    def calc_polymorphism(self):
         total_methods_can_be_overriden = 0
         for java_class in self.java_class_container.java_class_list():
             inherited_methods = java_class.get_inherited_method_list()
@@ -129,7 +128,7 @@ class Polymorphism:
         return (total_methods_can_be_overriden /
                 (self.java_class_container.get_size() + self.java_interface_container.get_size()))
 
-    def calcInheritence(self):
+    def calc_inheritence(self):
         sum_metric_for_class_and_interface = 0
         for java_class in self.java_class_container.java_class_list():
             inherited_methods = java_class.get_inherited_method_list()

@@ -13,17 +13,16 @@ class Coupling:
         token_stream = CommonTokenStream(lexer)
         parser = JavaParserLabeled(token_stream)
         parser.getTokenStream()
-        parseTree = parser.compilationUnit()
-
+        parse_tree = parser.compilationUnit()
         listener = CouplingListener()
         walker = ParseTreeWalker()
-        walker.walk(t=parseTree, listener=listener)
+        walker.walk(t=parse_tree, listener=listener)
         return listener
 
-    def calcCoupling(self):
+    def calc_coupling(self):
         count_coupling = 0
         total_num_classes_and_interfaces = 0
-        for stream in FileReader.getFileStreams(self.project_path):
+        for stream in FileReader.get_file_streams(self.project_path):
             listener = self.get_listener(stream)
             count_coupling += listener.get_coupling_size()
             total_num_classes_and_interfaces += listener.get_num_classes()

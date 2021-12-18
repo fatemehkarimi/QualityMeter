@@ -58,8 +58,8 @@ class Abstraction:
                 if self.interface_container.get_java_interface(parent_name):
                     java_interface.add_parent(parent_name, self.interface_container.get_java_interface(parent_name))
 
-    def calcAbstraction(self):
-        for stream in FileReader.getFileStreams(self.project_path):
+    def calc_abstraction(self):
+        for stream in FileReader.get_file_streams(self.project_path):
             listener = self.get_listener(stream)
             self.extract_java_classes(listener)
             self.extract_java_interfaces(listener)
